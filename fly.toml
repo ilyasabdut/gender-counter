@@ -1,0 +1,45 @@
+# fly.toml app configuration file generated for peasy-gender-counter on 2024-04-03T18:30:08+07:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'peasy-gender-counter'
+primary_region = 'sin'
+console_command = 'php /var/www/html/artisan tinker'
+
+[build]
+  [build.args]
+    NODE_VERSION = '18'
+    PHP_VERSION = '8.2'
+
+[env]
+  APP_ENV = 'production'
+  APP_URL = 'https://peasy-gender-counter.fly.dev'
+  DB_CONNECTION = "pgsql"
+  DB_HOST = "gender-counter-db.internal"
+  DB_DATABASE= "peasy_gender_counter" 
+  DB_PORT = 5432
+
+  CACHE_DRIVER="redis"
+  REDIS_URL="redis://default:b64ae362af27427c88b9f1551477886c@fly-gender-counter-redis.upstash.io:6379"
+  REDIS_CACHE_DB=0
+  REDIS_DB=0
+
+  LOG_CHANNEL = 'stderr'
+  LOG_LEVEL = 'info'
+  LOG_STDERR_FORMATTER = 'Monolog\Formatter\JsonFormatter'
+  SESSION_DRIVER = 'cookie'
+  SESSION_SECURE_COOKIE = 'true'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ['app']
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
