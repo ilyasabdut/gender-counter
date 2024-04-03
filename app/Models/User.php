@@ -17,12 +17,6 @@ class User extends BaseModel
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'gender',
-        'location',
-        'age'
-    ];
 
     public static function boot()
     {

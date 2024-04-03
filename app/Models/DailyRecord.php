@@ -17,12 +17,4 @@ class DailyRecord extends BaseModel
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'date',
-        'male_count',
-        'female_count',
-        'male_avg_age',
-        'female_avg_age'
-    ];
-
 }
