@@ -6,6 +6,7 @@ use Arr;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
@@ -16,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = User::orderBy('created_at')
+        $users = User::orderBy('created_at')
                 ->when(request()->filled('search'), function ($query) {
                     $search = '%'.ucwords(request('search')).'%';
                     $query->whereRaw("name->'name'->>'first' LIKE ?", [$search])
@@ -24,8 +25,10 @@ class UserController extends Controller
                         ->orWhereRaw("name->'name'->>'title' LIKE ?", [$search]);
                 })
                 ->get();
+        
+        $response =  UserResource::collection($users);
                 
-        return api('success',200,$user);
+        return api('success',200,$response);
     }
 
     /**
