@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Arr;
-use App\Models\User;
+use App\Models\DailyRecord;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class UserController extends Controller
+class DailyRecordController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,16 +14,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = User::orderBy('created_at')
-                ->when(request()->filled('search'), function ($query) {
-                    $search = '%'.ucwords(request('search')).'%';
-                    $query->whereRaw("name->'name'->>'first' LIKE ?", [$search])
-                        ->orWhereRaw("name->'name'->>'last' LIKE ?", [$search])
-                        ->orWhereRaw("name->'name'->>'title' LIKE ?", [$search]);
-                })
-                ->get();
-        
-        return api('success',200,$user);
+        $query = DailyRecord::latest()->first();
+        return api('success',200,$query);
+
     }
 
     /**
@@ -89,22 +80,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($user)
+    public function destroy($id)
     {
-        DB::beginTransaction();
-        try {
-            $find = User::firstWhere('uuid',$user);
-            
-            if(is_null($find)){
-                return api(null,'user not found',422);
-            }
-            $find->delete();
-            DB::commit();
-            return api('user deleted',200,$find);
-
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            throw $th;
-        }
+        //
     }
 }
