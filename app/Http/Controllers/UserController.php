@@ -24,7 +24,7 @@ class UserController extends Controller
                         ->orWhereRaw("name->'name'->>'title' LIKE ?", [$search]);
                 })
                 ->get();
-        
+                
         return api('success',200,$user);
     }
 

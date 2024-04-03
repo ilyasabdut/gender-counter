@@ -32,11 +32,13 @@ class SaveUsers extends Command
     {
         //Fetch random users
         $randomUsers = randomUser()->get('/api?results=20')->json('results');
-
         foreach($randomUsers as $key => $user){
             $counter = $key + 1;
-            User::updateOrCreate([
+            User::updateOrCreate(
+            [
                 'uuid' => $user['login']['uuid'],
+            ],
+            [
                 'name' => json_encode($user['name']),
                 'gender' => $user['gender'],
                 'location' => json_encode($user['location']),
