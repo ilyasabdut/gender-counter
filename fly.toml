@@ -15,6 +15,9 @@ console_command = 'php /var/www/html/artisan tinker'
 [env]
   APP_ENV = 'production'
   APP_URL = 'https://peasy-gender-counter.fly.dev'
+
+  INTEGRATION_RANDOM_USER_URL = 'https://randomuser.me'
+
   DB_CONNECTION = "pgsql"
   DB_HOST = "gender-counter-db.internal"
   DB_DATABASE= "peasy_gender_counter" 
