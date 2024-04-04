@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Redis;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends BaseModel
 {
@@ -24,13 +25,11 @@ class User extends BaseModel
 
         static::created(function ($model) {
 
-            $queryUser = User::whereNull('deleted_at')
-            ->get();
 
-            [$male, $female] = $queryUser->partition(function($item){
+            [$male, $female] = User::get()->partition(function($item){
                 return $item->gender == 'male';
             });
-
+    
             $maleAvgAge = (int) floor($male->avg('age'));
     
             $femaleAvgAge = (int) floor($female->avg('age'));
@@ -41,6 +40,11 @@ class User extends BaseModel
             $dailyRecord->male_avg_age = $maleAvgAge;
             $dailyRecord->female_avg_age = $femaleAvgAge;
             $dailyRecord->save();
+
+            //Set total male and female into redis
+            Redis::set('total_male', $male->count());
+            Redis::set('total_female', $female->count());
+
 
         });
 
