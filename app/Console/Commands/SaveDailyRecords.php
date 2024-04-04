@@ -36,13 +36,17 @@ class SaveDailyRecords extends Command
 
     public function dailyRecords()
     {
-        $maleCount = Redis::get('total_male');
-        $femaleCount = Redis::get('total_female');
+        [$male, $female] = User::get()->partition(function($item){
+            return $item->gender == 'male';
+        });
+
+        $maleCount = is_null(Redis::get('total_male')) ? $male->count() : Redis::get('total_male');
+        $femaleCount = is_null(Redis::get('total_female')) ? $female->count() : Redis::get('total_female');
     
-        $maleAvgAge = (int) floor(User::where('gender', 'male')->avg('age'));
+        $maleAvgAge = (int) floor($male->avg('age'));
     
-        $femaleAvgAge = (int) floor(User::where('gender', 'female')->avg('age'));
-    
+        $femaleAvgAge = (int) floor($female->avg('age'));
+
         DailyRecord::create([
             'date' => now()->toDateTimeString(),
             'male_count' => $maleCount,
