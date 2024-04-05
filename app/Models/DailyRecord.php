@@ -18,26 +18,28 @@ class DailyRecord extends BaseModel
      * @var array<int, string>
      */
 
-     public static function boot()
-     {
-         parent::boot();
+    //  public static function boot()
+    //  {
+    //      parent::boot();
  
-         static::updated(function ($dailyRecord) {
-            try{
-                if ($dailyRecord->isDirty('male_count') || $dailyRecord->isDirty('female_count')) {
-                    $maleAvgAge = User::where('gender', 'male')->avg('age');
-
-                    $femaleAvgAge = User::where('gender', 'female')->avg('age');
+    //      static::updated(function ($dailyRecord) {
+    //         try{
+    //             if ($dailyRecord->isDirty('male_count') || $dailyRecord->isDirty('female_count')) {
+    //                 $maleAvgAge = User::where('gender', 'male')->avg('age');
+    //                 $femaleAvgAge = User::where('gender', 'female')->avg('age');
                    
-                    $dailyRecord->update([
-                        'male_avg_age' => (int)floor($maleAvgAge),
-                        'female_avg_age' => (int)floor($femaleAvgAge)
-                    ]);
-                }
-            }catch(\Exception $e){
-                throw $e;
-            }
-         });
-     }
+    //                 // $dailyRecord->update([
+    //                 //     'male_avg_age' => (int)floor($maleAvgAge),
+    //                 //     'female_avg_age' => (int)floor($femaleAvgAge)
+    //                 // ]);
+    //                 $dailyRecord->male_avg_age = (int)floor($maleAvgAge);
+    //                 $dailyRecord->female_avg_age = (int)floor($femaleAvgAge);
+    //                 $dailyRecord->save();
+    //             }
+    //         }catch(\Exception $e){
+    //             throw $e;
+    //         }
+    //      });
+    //  }
  
 }

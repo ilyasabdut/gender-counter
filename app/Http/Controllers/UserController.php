@@ -97,7 +97,6 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             $find = User::firstWhere('uuid',$user);
-            
             if(is_null($find)){
                 return api('user not found',422,null);
             }
@@ -105,7 +104,6 @@ class UserController extends Controller
             DB::commit();
 
             $response =  new UserResource($find);
-            dd($response);
             return api('user deleted',204,$response);
 
         } catch (\Exception $th) {
