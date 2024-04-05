@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DailyRecord;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class DailyRecordController extends Controller

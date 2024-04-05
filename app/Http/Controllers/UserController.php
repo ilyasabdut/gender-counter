@@ -103,7 +103,10 @@ class UserController extends Controller
             }
             $find->delete();
             DB::commit();
-            return api('user deleted',200,$find);
+
+            $response =  new UserResource($find);
+
+            return api('user deleted',204,$response);
 
         } catch (\Throwable $th) {
             DB::rollBack();
