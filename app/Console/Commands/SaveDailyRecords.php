@@ -36,9 +36,10 @@ class SaveDailyRecords extends Command
 
     public function dailyRecords()
     {
-        [$male, $female] = User::get()->partition(function($item){
-            return $item->gender == 'male';
-        });
+        [$male, $female] = User::whereDate('created_at', now()->toDateString())
+                            ->get()->partition(function($item){
+                                return $item->gender == 'male';
+                            });
 
         $maleCount = is_null(Redis::get('total_male')) ? $male->count() : Redis::get('total_male');
         $femaleCount = is_null(Redis::get('total_female')) ? $female->count() : Redis::get('total_female');

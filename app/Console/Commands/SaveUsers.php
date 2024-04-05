@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Redis;
 
 class SaveUsers extends Command
 {
@@ -46,6 +47,13 @@ class SaveUsers extends Command
             ]);
             $this->output->writeln($counter . ' success inserting ' . $user['login']['uuid'], false);
         }
+
+        [$male, $female] = User::get()->partition(function($item){
+            return $item->gender == 'male';
+        });
+
+        Redis::set('total_male', $male->count());
+        Redis::set('total_female', $female->count());
 
     }
 
