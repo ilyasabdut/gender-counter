@@ -50,8 +50,9 @@ class User extends BaseModel
 
         static::deleted(function ($model) {
 
-            $queryUser = User::whereNull('deleted_at')->get();
-
+            $queryUser = User::whereDate('created_at', $model->created_at->toDateString())
+                    ->whereNull('deleted_at')
+                    ->get();
 
             [$male, $female] = $queryUser->partition(function($item){
                 return $item->gender == 'male';
