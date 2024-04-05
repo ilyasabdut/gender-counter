@@ -61,7 +61,7 @@ class User extends BaseModel
     
             $femaleAvgAge = (int) floor($female->avg('age'));
 
-            $dailyRecord = DailyRecord::latest('created_at')->first();
+            $dailyRecord = DailyRecord::whereDate('date', $model->created_at->toDateString())->first();
             if($model->gender == 'male'){
                 $dailyRecord->male_count = $dailyRecord->male_count - 1;
             }elseif($model->gender == 'female'){

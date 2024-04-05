@@ -15,7 +15,7 @@ class DailyRecordController extends Controller
      */
     public function index()
     {
-        $query = DailyRecord::latest()->first();
+        $query = DailyRecord::latest()->get();
         return api('success',200,$query);
 
     }
