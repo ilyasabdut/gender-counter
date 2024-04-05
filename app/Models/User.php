@@ -23,32 +23,6 @@ class User extends BaseModel
     {
         parent::boot();
 
-        static::created(function ($model) {
-
-
-            [$male, $female] = User::get()->partition(function($item){
-                return $item->gender == 'male';
-            });
-    
-            $maleAvgAge = (int) floor($male->avg('age'));
-    
-            $femaleAvgAge = (int) floor($female->avg('age'));
-
-            $dailyRecord = DailyRecord::latest('created_at')->first();
-            $dailyRecord->male_count = $male->count();
-            $dailyRecord->female_count = $female->count();
-            $dailyRecord->male_avg_age = $maleAvgAge;
-            $dailyRecord->female_avg_age = $femaleAvgAge;
-            $dailyRecord->save();
-
-            //Set total male and female into redis
-            Redis::set('total_male', $male->count());
-            Redis::set('total_female', $female->count());
-
-
-        });
-
-
         static::deleted(function ($model) {
 
             $queryUser = User::whereDate('created_at', $model->created_at->toDateString())
