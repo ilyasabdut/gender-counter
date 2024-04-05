@@ -99,16 +99,16 @@ class UserController extends Controller
             $find = User::firstWhere('uuid',$user);
             
             if(is_null($find)){
-                return api(null,'user not found',422);
+                return api('user not found',422,null);
             }
             $find->delete();
             DB::commit();
 
             $response =  new UserResource($find);
-
+            dd($response);
             return api('user deleted',204,$response);
 
-        } catch (\Throwable $th) {
+        } catch (\Exception $th) {
             DB::rollBack();
             throw $th;
         }

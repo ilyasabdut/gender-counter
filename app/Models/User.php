@@ -43,8 +43,7 @@ class User extends BaseModel
             }elseif($model->gender == 'female'){
                 $dailyRecord->female_count = $dailyRecord->female_count - 1;
             }
-            $dailyRecord->male_avg_age = $maleAvgAge;
-            $dailyRecord->female_avg_age = $femaleAvgAge;
+            
             $dailyRecord->save();
 
         });

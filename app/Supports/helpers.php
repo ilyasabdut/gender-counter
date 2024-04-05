@@ -25,7 +25,6 @@ function api($message,$statusCode,$model = null) {
         'meta' => $meta
     ];
 
-
     return response()->json($response,$statusCode);
 }
 
