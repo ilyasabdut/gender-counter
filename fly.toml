@@ -3,7 +3,7 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'peasy-gender-counter'
+app = 'gender-counter'
 primary_region = 'sin'
 console_command = 'php /var/www/html/artisan tinker'
 
@@ -14,13 +14,13 @@ console_command = 'php /var/www/html/artisan tinker'
 
 [env]
   APP_ENV = 'production'
-  APP_URL = 'https://peasy-gender-counter.fly.dev'
+  APP_URL = 'https://gender-counter.fly.dev'
 
   INTEGRATION_RANDOM_USER_URL = 'https://randomuser.me'
 
   DB_CONNECTION = "pgsql"
-  DB_HOST = "gender-counter-db.internal"
-  DB_DATABASE= "peasy_gender_counter" 
+  DB_HOST = "gender-counter-pg.internal"
+  DB_DATABASE= "gender-counter-db" 
   DB_PORT = 5432
 
   CACHE_DRIVER="redis"

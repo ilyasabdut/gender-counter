@@ -15,8 +15,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('save:users')->hourlyAt(1);
-        $schedule->command('save:daily-record')->timezone('Asia/Jakarta')->dailyAt('23:58');
+        $schedule->command('save:users')->timezone('Asia/Jakarta')->monthlyOn(4, '15:00');
+        $schedule->command('save:daily-record')->timezone('Asia/Jakarta')->monthlyOn(4, '16:00');
     }
 
     /**

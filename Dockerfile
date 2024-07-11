@@ -21,6 +21,7 @@ RUN composer install --optimize-autoloader --no-dev \
     && sed -i 's/protected \$proxies/protected \$proxies = "*"/g' app/Http/Middleware/TrustProxies.php;\
     if [ -d .fly ]; then cp .fly/entrypoint.sh /entrypoint; chmod +x /entrypoint; fi;
     
+RUN apt-get -y remove php${PHP_VERSION}-swoole;
 
 
 # Multi-stage build: Build static assets
